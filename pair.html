@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Pairing Code</title>
+    <script>
+       async function addPairingCode(e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const pairingCode = document.getElementById('pairingCode').value;
+
+    try {
+        const response = await fetch('https://pp-kcfa.onrender.com/add-pairing-code', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, pairingCode }),
+        });
+
+        // Check if response is not JSON (i.e., HTML)
+        if (!response.ok) {
+            const text = await response.text();
+            alert('Error: ' + text);  // Show the HTML response for error diagnosis
+            return;
+        }
+
+        const result = await response.json();
+        
+        if (response.status === 200) {
+            alert('Pairing code added successfully!');
+        } else {
+            alert(result.error || 'Failed to add pairing code.');
+        }
+    } catch (error) {
+        alert('Error connecting to the server!');
+        console.error(error);
+    }
+}
+</script>
+</head>
+<body>
+    <form id="pairingForm" onsubmit="addPairingCode(event)">
+        <h2>Add Pairing Code</h2>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="text" id="pairingCode" placeholder="Pairing Code" required>
+        <button type="submit">Add Pairing Code</button>
+    </form>
+</body>
+</html>
