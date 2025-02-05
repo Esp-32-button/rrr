@@ -62,6 +62,7 @@
         <div class="button-container">
             <button class="on-button" onclick="updateServoState('ON')">ON</button>
             <button class="off-button" onclick="updateServoState('OFF')">OFF</button>
+            
         </div>
         <p class="status">Servo State: <span id="servo-state">Loading...</span></p>
     </div>
@@ -77,6 +78,7 @@
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({ state })
+                    window.location.href = 'login.html'; 
                 });
 
                 const data = await response.json();
